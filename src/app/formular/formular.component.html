@@ -1,0 +1,12 @@
+<div class="container">
+  <h2>IP Address Details</h2>
+  <form (ngSubmit)="Submit()">
+    <label for="ipAddress">Enter IP Address:</label>
+    <input type="text" id="ipAddress" [(ngModel)]="ipAddress" name="ipAddress" required>
+    <button type="submit">Get Details</button>
+  </form>
+</div>
+<div *ngIf="ipDetails">
+  <h3>IP Details:</h3>
+  <pre>{{ ipDetails | json }}</pre>
+</div>

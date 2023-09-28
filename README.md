@@ -1,0 +1,2 @@
+## IP Checker 
+> **Ziel**: In dieser Aufgabe sollst du eine Angular-App erstellen, die eine IP-Adresse über ein Formular entgegennimmt und dann mithilfe der ip-api.com-API zusätzliche Informationen zur IP-Adresse abruft. Schließlich sollst du die Angular-App in einem Docker-Container verpacken und auf einer AWS EC2-Instanz bereitstellen. Als Herausforderung soll Nginx als Reverse-Proxy verwendet werden. 
