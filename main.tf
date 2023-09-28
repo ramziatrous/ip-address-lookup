@@ -112,8 +112,17 @@ resource "aws_instance" "ec2_instance" {
   user_data              = <<-EOF
               #!/bin/bash
               sudo apt-get update -y
+              sudo echo 'server {
+                  listen 80;
 
-
+                  location / {
+                      proxy_pass http://localhost:8080;
+                      proxy_set_header Host $host;
+                      proxy_set_header X-Real-IP $remote_addr;
+                      auth_basic "Restricted Area";
+                      auth_basic_user_file /etc/nginx/.htpasswd;
+                  }
+              }' > /home/ubuntu/reverse-proxy
               EOF
   connection {
     type        = "ssh"
@@ -134,6 +143,12 @@ resource "aws_instance" "ec2_instance" {
       "cd ip-address-lookup",
       "sudo docker build -t ipcheck .",
       "sudo docker run -d --name ipcheck -p 8080:80 ipcheck",
+      "sudo apt-get install -y nginx apache2-utils",
+      "sudo htpasswd -cb /etc/nginx/.htpasswd ramzi test",
+      "sudo mv /home/ubuntu/reverse-proxy /etc/nginx/sites-available/",
+      "sudo ln -s /etc/nginx/sites-available/reverse-proxy /etc/nginx/sites-enabled/",
+      "sudo rm /etc/nginx/sites-enabled/default",
+      "sudo systemctl restart nginx"
 
     ]
   }
