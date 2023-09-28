@@ -83,6 +83,13 @@ resource "aws_security_group" "instance_a_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  ingress {
+    description = "HTTP from Everywhere"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   egress {
     from_port   = 0
@@ -125,8 +132,8 @@ resource "aws_instance" "ec2_instance" {
       "sudo apt-get install git",
       "git clone https://github.com/ramziatrous/ip-address-lookup.git",
       "cd ip-address-lookup",
-      "docker build -t ipcheck .",
-      "docker run --name ipcheck -p 8080:80",
+      "sudo docker build -t ipcheck .",
+      "sudo docker run -d --name ipcheck -p 8080:80 ipcheck",
 
     ]
   }
